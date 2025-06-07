@@ -45,7 +45,7 @@ export const FilterSlider = <T extends FieldValues>({
           </Button>
           <AccordionTrigger className="p-0 cursor-pointer" />
         </AccordionHeader>
-        <AccordionContent>
+        <AccordionContent className="flex flex-col gap-1 pb-0 pt-1">
           <div className="flex gap-3 items-center">
             <div className="flex flex-col flex-1">
               <Text size="sm" alignment="left">

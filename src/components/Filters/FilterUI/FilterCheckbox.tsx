@@ -34,7 +34,7 @@ export const FilterCheckbox = <T extends FieldValues>({
 
   return (
     <Accordion
-      className="bg-white flex flex-col gap-1 p-3 rounded-[12px]"
+      className="bg-white flex flex-col gap-2 p-3 rounded-[12px]"
       type="single"
       collapsible>
       <AccordionItem value="item-1">
@@ -44,7 +44,7 @@ export const FilterCheckbox = <T extends FieldValues>({
             <AccordionTrigger className="p-0 cursor-pointer" />
           </AccordionHeader>
 
-          <AccordionContent className="flex flex-col gap-2">
+          <AccordionContent className="flex flex-col gap-2 pb-0">
             {data.map((item, index) => (
               <label key={index} className="h-[20px] flex items-center gap-1.5 cursor-pointer">
                 <Controller

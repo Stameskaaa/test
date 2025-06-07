@@ -12,7 +12,7 @@ import { Heading } from '../Typography/Heading';
 import { FilterSelect } from '../Filters/FilterUI/FilterSelect';
 import { Form } from '../ui/form';
 import { useForm } from 'react-hook-form';
-import { SettingIcon } from '@/icons/icons';
+import { IconBurgerSmall, SettingIcon } from '@/icons/icons';
 import { ClientFilters } from '@/pages/[[...slug]]';
 import { columns } from '@/mock/data';
 import { useMemo } from 'react';
@@ -98,12 +98,15 @@ export function DataTable({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="min-w-0  truncate pl-0 pr-3">
-                    <Text nowrap={false} size="sm" color="gray">
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </Text>
+                  <TableHead key={header.id} className="min-w-0  truncate pl-0 pr-3 ">
+                    <div className="flex gap-0.5 items-center">
+                      {header.column.id !== 'leftIcon' && <IconBurgerSmall />}
+                      <Text nowrap={false} size="sm" color="gray">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
+                      </Text>
+                    </div>
                   </TableHead>
                 ))}
               </TableRow>
