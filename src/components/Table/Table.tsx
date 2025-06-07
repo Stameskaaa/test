@@ -14,9 +14,9 @@ import { Form } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { IconBurgerSmall, SettingIcon } from '@/icons/icons';
 import { ClientFilters } from '@/pages/[[...slug]]';
-import { columns } from '@/mock/data';
-import { useMemo } from 'react';
-import { filterClients, filterTableHeader } from '@/helpers/helpers';
+import { getColumns } from '@/mock/data';
+import { useEffect, useMemo, useState } from 'react';
+import { filterClients, filterTableHeader, generateClientTableData } from '@/helpers/helpers';
 
 export interface RowData {
   priority: string;
@@ -33,6 +33,7 @@ export interface RowData {
   format: string;
   activity: string;
   categoryRecords: string;
+  disabled: boolean;
 }
 
 export const initialFilters: ClientFilters = {
@@ -50,33 +51,46 @@ export const initialFilters: ClientFilters = {
   status: [],
 };
 
-const tColumnsData = columns.map(({ header }) => String(header));
-
 interface TableHeaderForm {
   tColumns: string[];
 }
 
-export function DataTable({
-  allFilters,
-  initialData,
-}: {
-  allFilters: ClientFilters;
-  initialData: RowData[];
-}) {
+export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
+  const tColumnsData = getColumns(ToggleTableItem).map(({ header }) => String(header));
   const methods = useForm<TableHeaderForm>({ defaultValues: { tColumns: tColumnsData } });
+  const [rowData, setRowData] = useState<RowData[]>([]);
   const tColumns = methods.watch('tColumns');
+
+  useEffect(() => {
+    const generated = generateClientTableData(20);
+    setRowData(generated);
+  }, []);
+
   const filteredRow = useMemo(() => {
-    return filterClients(initialData, allFilters);
-  }, [allFilters]);
+    return filterClients(allFilters, rowData);
+  }, [allFilters, rowData]);
+
   const filteredColumns = useMemo(() => {
-    return filterTableHeader(tColumns);
+    return filterTableHeader(tColumns, ToggleTableItem);
   }, [tColumns]);
 
   const table = useReactTable({
-    data: filteredRow,
-    columns: filteredColumns,
+    data: filteredRow || [],
+    columns: filteredColumns || [],
     getCoreRowModel: getCoreRowModel(),
   });
+
+  if (rowData.length === 0) {
+    return <div className="m-auto">Loading...</div>;
+  }
+
+  function ToggleTableItem(nameId: string) {
+    setRowData((prev) =>
+      prev.map((cellItem) =>
+        cellItem.names === nameId ? { ...cellItem, disabled: !cellItem.disabled } : cellItem,
+      ),
+    );
+  }
 
   return (
     <Form {...methods}>
@@ -118,7 +132,11 @@ export function DataTable({
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="min-w-0  truncate  pl-0 pr-3 py-3">
-                      <Text alignment="left" size="xs" className="truncate">
+                      <Text
+                        color={row.original.disabled ? 'gray' : undefined}
+                        alignment="left"
+                        size="xs"
+                        className="truncate">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </Text>
                     </TableCell>
@@ -127,7 +145,7 @@ export function DataTable({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={tColumnsData.length} className="h-24 text-center">
                   -
                 </TableCell>
               </TableRow>

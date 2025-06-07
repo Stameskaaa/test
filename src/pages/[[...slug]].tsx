@@ -44,21 +44,11 @@ export const initialFilters: ClientFilters = {
 
 export default function Home() {
   const [allFilters, setAllFilters] = useState<ClientFilters>(initialFilters);
-  const [data, setData] = useState<RowData[]>([]);
-
-  useEffect(() => {
-    const generated = generateClientTableData(20);
-    setData(generated);
-  }, []);
-
-  if (data.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="w-full h-full bg-[#F6F5F6]  flex flex-col gap-3">
       <Filters setAllFilters={setAllFilters} />
-      <DataTable initialData={data} allFilters={allFilters} />
+      <DataTable allFilters={allFilters} />
     </div>
   );
 }

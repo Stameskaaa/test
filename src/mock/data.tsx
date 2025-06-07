@@ -99,141 +99,147 @@ export const inputFilterMock = [
   },
 ] as const;
 
-export const columns: ColumnDef<RowData>[] = [
-  {
-    id: 'leftIcon',
-    header: '',
-    accessorKey: '',
-    cell: () => (
-      <div className="w-[36px] grid place-items-center pl-4">
-        <IconBurger />
-      </div>
-    ),
-    meta: {
-      filterKey: '',
-    },
-  },
-  {
-    accessorKey: 'names',
-    header: 'Наименование клиента',
-    cell: ({ getValue, row }) => {
-      const value = getValue<string>();
-      const time = row.original.sendTime;
-      return (
-        <div className="flex flex-col">
-          <Text alignment="left" size="sm">
-            {value}
-          </Text>
-          <Text alignment="left" size="xs" color="gray">
-            {time}
-          </Text>
+export const getColumns = (onToggle?: (id: string) => void): ColumnDef<RowData>[] => {
+  return [
+    {
+      id: 'leftIcon',
+      header: '',
+      accessorKey: '',
+      cell: () => (
+        <div className="w-[36px] grid place-items-center pl-4">
+          <IconBurger />
         </div>
-      );
+      ),
+      meta: {
+        filterKey: '',
+      },
     },
-    meta: {
-      filterKey: 'Наименование клиента',
+    {
+      accessorKey: 'names',
+      header: 'Наименование клиента',
+      cell: ({ getValue, row }) => {
+        const value = getValue<string>();
+        const time = row.original.sendTime;
+        const disabled = row.original.disabled;
+        return (
+          <div className="flex flex-col">
+            <Text alignment="left" size="sm" color={disabled ? 'gray' : undefined}>
+              {value}
+            </Text>
+            <Text alignment="left" size="xs" color="gray">
+              {time}
+            </Text>
+          </div>
+        );
+      },
+      meta: {
+        filterKey: 'Наименование клиента',
+      },
     },
-  },
-  {
-    accessorKey: 'priority',
-    header: 'Приоритет',
-    meta: {
-      filterKey: 'Приоритет',
+    {
+      accessorKey: 'priority',
+      header: 'Приоритет',
+      meta: {
+        filterKey: 'Приоритет',
+      },
     },
-  },
-  {
-    accessorKey: 'sendTime',
-    header: 'Время отправки',
-    meta: {
-      filterKey: 'Время отправки',
+    {
+      accessorKey: 'sendTime',
+      header: 'Время отправки',
+      meta: {
+        filterKey: 'Время отправки',
+      },
     },
-  },
-  {
-    accessorKey: 'visitsCount',
-    header: 'Кол-во визитов',
-    meta: {
-      filterKey: 'Кол-во визитов',
+    {
+      accessorKey: 'visitsCount',
+      header: 'Кол-во визитов',
+      meta: {
+        filterKey: 'Кол-во визитов',
+      },
     },
-  },
-  {
-    accessorKey: 'gender',
-    header: 'Пол',
-    meta: {
-      filterKey: 'Пол',
+    {
+      accessorKey: 'gender',
+      header: 'Пол',
+      meta: {
+        filterKey: 'Пол',
+      },
     },
-  },
-  {
-    accessorKey: 'age',
-    header: 'Возраст',
-    meta: {
-      filterKey: 'Возраст',
+    {
+      accessorKey: 'age',
+      header: 'Возраст',
+      meta: {
+        filterKey: 'Возраст',
+      },
     },
-  },
-  {
-    accessorKey: 'clientCategories',
-    header: 'Категория клиента',
-    meta: {
-      filterKey: 'Категория клиента',
+    {
+      accessorKey: 'clientCategories',
+      header: 'Категория клиента',
+      meta: {
+        filterKey: 'Категория клиента',
+      },
     },
-  },
-  {
-    accessorKey: 'masters',
-    header: 'Мастер',
-    meta: {
-      filterKey: 'Мастер',
+    {
+      accessorKey: 'masters',
+      header: 'Мастер',
+      meta: {
+        filterKey: 'Мастер',
+      },
     },
-  },
-  {
-    accessorKey: 'services',
-    header: 'Услуга',
-    meta: {
-      filterKey: 'Услуга',
+    {
+      accessorKey: 'services',
+      header: 'Услуга',
+      meta: {
+        filterKey: 'Услуга',
+      },
     },
-  },
-  {
-    accessorKey: 'format',
-    header: 'Формат создания',
-    meta: {
-      filterKey: 'Формат создания',
+    {
+      accessorKey: 'format',
+      header: 'Формат создания',
+      meta: {
+        filterKey: 'Формат создания',
+      },
     },
-  },
-  {
-    accessorKey: 'categoryRecords',
-    header: 'Категория записи',
-    meta: {
-      filterKey: 'Категория записи',
+    {
+      accessorKey: 'categoryRecords',
+      header: 'Категория записи',
+      meta: {
+        filterKey: 'Категория записи',
+      },
     },
-  },
-  {
-    accessorKey: 'status',
-    header: 'Статус',
-    meta: {
-      filterKey: 'Статус',
+    {
+      accessorKey: 'status',
+      header: 'Статус',
+      meta: {
+        filterKey: 'Статус',
+      },
     },
-  },
-  {
-    accessorKey: 'activity',
-    header: 'Активность',
-    meta: {
-      filterKey: 'Активность',
+    {
+      accessorKey: 'activity',
+      header: 'Активность',
+      meta: {
+        filterKey: 'Активность',
+      },
     },
-  },
-  {
-    accessorKey: 'actions',
-    header: 'Действия',
-    cell: () => (
-      <div className="flex gap-3 items-center">
-        <Switch />
-        <Button variant="text" className="bg-[rgba(235,238,246,1)] aspect-square p-2">
-          <ShowIcon />
-        </Button>
-        <Button variant="text" className="bg-[rgba(235,238,246,1)] aspect-square p-2">
-          <PointsIcon />
-        </Button>
-      </div>
-    ),
-    meta: {
-      filterKey: 'Действия',
+    {
+      accessorKey: 'actions',
+      header: 'Действия',
+      cell: ({ row }) => {
+        const isDisabled = row.original.disabled;
+        return (
+          <div className="flex gap-3 items-center">
+            <Switch checked={!isDisabled} onCheckedChange={() => onToggle?.(row.original.names)} />
+            <Button variant="text" className="bg-[rgba(235,238,246,1)] aspect-square p-2">
+              <ShowIcon />
+            </Button>
+            <Button variant="text" className="bg-[rgba(235,238,246,1)] aspect-square p-2">
+              <PointsIcon />
+            </Button>
+          </div>
+        );
+      },
+      meta: {
+        filterKey: 'Действия',
+      },
     },
-  },
-];
+  ];
+};

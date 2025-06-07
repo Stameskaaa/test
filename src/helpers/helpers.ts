@@ -4,7 +4,7 @@ import {
   appointmentCategories,
   appointmentStatuses,
   clientCategories,
-  columns,
+  getColumns,
   creationFormats,
   genders,
   masters,
@@ -42,14 +42,12 @@ export const generateClientTableData = (count: number = 100): RowData[] => {
       format: randomChoice(creationFormats),
       status: randomChoice(appointmentStatuses),
       activity: randomChoice(activities),
+      disabled: randomBool(),
     };
   });
 };
 
-export function filterClients(
-  data: RowData[],
-  filters: ClientFilters & { category?: string[] },
-): RowData[] {
+export function filterClients(filters: ClientFilters & { category?: string[] }, data: RowData[]) {
   return data.filter((client) => {
     const ageMatch = client.age >= filters.age[0] && client.age <= filters.age[1];
     const visitsMatch =
@@ -94,6 +92,6 @@ export function filterClients(
   });
 }
 
-export function filterTableHeader(filterColumns: string[]) {
-  return columns.filter(({ header }) => filterColumns.includes(String(header)));
+export function filterTableHeader(filterColumns: string[], onToggle?: (id: string) => void) {
+  return getColumns(onToggle).filter(({ header }) => filterColumns.includes(String(header)));
 }

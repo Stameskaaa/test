@@ -10,7 +10,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Geometrica';
   src: url('/public/fonts/geometrica/geometria_medium.otf') format('woff2');
