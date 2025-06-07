@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppSidebar />
       <main className="h-screen w-full ">
         <Header />
-        <div className="bg-[#f5f5f5] h-[calc(100%-80px)] pl-10 pt-9 pr-9 flex flex-col gap-y-3">
+        <div className="bg-[#f5f5f5] h-[calc(100%-80px)] pl-10 pt-9 pr-9 flex flex-col gap-y-3 w-full max-w-[calc(100vw-260px)]">
           <Component {...pageProps} />
         </div>
       </main>

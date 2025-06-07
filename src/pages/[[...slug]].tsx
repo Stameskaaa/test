@@ -56,7 +56,7 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full h-full bg-[#F6F5F6]  flex flex-col gap-3 ">
+    <div className="w-full h-full bg-[#F6F5F6]  flex flex-col gap-3">
       <Filters setAllFilters={setAllFilters} />
       <DataTable initialData={data} allFilters={allFilters} />
     </div>
