@@ -16,7 +16,7 @@ import { SettingIcon } from '@/icons/icons';
 import { ClientFilters } from '@/pages/[[...slug]]';
 import { columns } from '@/mock/data';
 import { useMemo } from 'react';
-import { filterClients } from '@/helpers/helpers';
+import { filterClients, filterTableHeader } from '@/helpers/helpers';
 
 export interface RowData {
   priority: string;
@@ -29,6 +29,10 @@ export interface RowData {
   services: string;
   actions: React.ReactNode;
   names: string;
+  status: string;
+  format: string;
+  activity: string;
+  categoryRecords: String;
 }
 
 export const initialFilters: ClientFilters = {
@@ -46,6 +50,12 @@ export const initialFilters: ClientFilters = {
   status: [],
 };
 
+const tColumnsData = columns.map(({ header }) => String(header));
+
+interface TableHeaderForm {
+  tColumns: string[];
+}
+
 export function DataTable({
   allFilters,
   initialData,
@@ -53,14 +63,18 @@ export function DataTable({
   allFilters: ClientFilters;
   initialData: RowData[];
 }) {
-  const methods = useForm();
+  const methods = useForm<TableHeaderForm>({ defaultValues: { tColumns: tColumnsData } });
+  const tColumns = methods.watch('tColumns');
   const filteredRow = useMemo(() => {
     return filterClients(initialData, allFilters);
   }, [allFilters]);
+  const filteredColumns = useMemo(() => {
+    return filterTableHeader(tColumns);
+  }, [tColumns]);
 
   const table = useReactTable({
     data: filteredRow,
-    columns,
+    columns: filteredColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -72,11 +86,10 @@ export function DataTable({
           <Heading color="gray">{`${filteredRow.length}`}</Heading>
           <div className="ml-auto">
             <FilterSelect
-              selectedItems={[{ text: 'text', value: '1' }]}
               icon={<SettingIcon />}
               placeholder="Данные"
-              //@ts-ignore
               name="tColumns"
+              items={tColumnsData}
             />
           </div>
         </div>
@@ -85,11 +98,7 @@ export function DataTable({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="min-w-0 max-w-[100px] truncate"
-                    // style={{ width: '100px' }}
-                  >
+                  <TableHead key={header.id} className="min-w-0  truncate">
                     <Text nowrap={false} size="sm" color="gray">
                       {header.isPlaceholder
                         ? null
@@ -103,13 +112,9 @@ export function DataTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="min-w-0 max-w-[100px] truncate"
-                      // style={{ width: '100px' }}
-                    >
+                    <TableCell key={cell.id} className="min-w-0  truncate">
                       <Text alignment="left" size="xs" className="truncate">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </Text>

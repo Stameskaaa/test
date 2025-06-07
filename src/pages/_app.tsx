@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="h-screen w-full flex row-auto">
       <AppSidebar />
-      <main className="h-screen w-full bg-amber-200">
+      <main className="h-screen w-full ">
         <Header />
         <div className="bg-[#f5f5f5] h-[calc(100%-80px)] pl-10 pt-9 pr-9 flex flex-col gap-y-3">
           <Component {...pageProps} />

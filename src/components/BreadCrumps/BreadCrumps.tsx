@@ -1,5 +1,3 @@
-'use client';
-
 import { useParams } from 'next/navigation';
 import { Heading } from '../Typography/Heading';
 

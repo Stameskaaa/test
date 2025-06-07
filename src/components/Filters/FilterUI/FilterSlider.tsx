@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Controller, FieldValues, Path, PathValue, useFormContext } from 'react-hook-form';
 import { Slider } from '../../ui/slider';
 import { Text } from '../../Typography/Text';

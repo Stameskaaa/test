@@ -1,6 +1,6 @@
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { AccordionHeader } from '@radix-ui/react-accordion';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, FieldValues, Path, useFormContext, useWatch } from 'react-hook-form';
 import {
   Accordion,
   AccordionContent,
@@ -9,14 +9,18 @@ import {
 } from '@/components/ui/accordion';
 import { Text } from '@/components/Typography/Text';
 
-interface FilterRadioProps {
-  name: string;
+interface FilterRadioProps<T> {
+  name: Path<T>;
   title: string;
   data: string[];
 }
 
-export const FilterRadio: React.FC<FilterRadioProps> = ({ name, data, title }) => {
-  const { control } = useFormContext();
+export const FilterRadio = <T extends FieldValues>({ name, data, title }: FilterRadioProps<T>) => {
+  const { control, setValue } = useFormContext();
+
+  function handleChange(e: string) {
+    setValue(name, [e] as any);
+  }
 
   return (
     <Accordion
@@ -37,8 +41,8 @@ export const FilterRadio: React.FC<FilterRadioProps> = ({ name, data, title }) =
               render={({ field }) => (
                 <RadioGroup.Root
                   {...field}
-                  onValueChange={field.onChange}
-                  value={field.value}
+                  onValueChange={handleChange}
+                  value={field.value[0] ?? ''}
                   className="flex flex-col gap-3">
                   {data.map((data, index) => (
                     <div key={index} className="flex items-center gap-3">

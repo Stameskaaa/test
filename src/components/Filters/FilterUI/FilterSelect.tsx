@@ -1,38 +1,37 @@
 import React, { ReactNode } from 'react';
 import { FormControl, FormField, FormItem } from '../../ui/form';
 import { Select, SelectContent, SelectTrigger } from '../../ui/select';
-import { useFormContext } from 'react-hook-form';
+import { FieldValues, useFormContext, Path } from 'react-hook-form';
 import { Text } from '../../Typography/Text';
 import { Checkbox } from '../../ui/checkbox';
-import { ClientFilters } from '@/pages/[[...slug]]';
 
-interface FilterSelectProps {
-  name: keyof ClientFilters;
+interface FilterSelectProps<T> {
+  name: Path<T>;
   items: string[];
   placeholder?: string;
   icon?: ReactNode;
+  singleСhoice?: boolean;
 }
 
-export const FilterSelect = ({
+export const FilterSelect = <T extends FieldValues>({
   name,
   items,
   placeholder = 'Выберите...',
   icon,
-}: FilterSelectProps) => {
-  const methods = useFormContext<ClientFilters>();
+  singleСhoice = false,
+}: FilterSelectProps<T>) => {
+  const methods = useFormContext();
 
   return (
     <FormField
       control={methods.control}
       name={name}
       render={({ field: { onChange, value } }) => {
-        const selectedValues = Array.isArray(value) ? value : [];
-
-        const isSingleSelect = name === 'male' || name === 'activity';
+        const selectedValues = Array.isArray(value) ? (value as string[]) : [];
 
         function toggleValue(itemValue: string) {
           let updated;
-          if (isSingleSelect) {
+          if (singleСhoice) {
             updated = selectedValues.includes(itemValue) ? [] : [itemValue];
           } else {
             updated = selectedValues.includes(itemValue)

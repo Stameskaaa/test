@@ -14,15 +14,17 @@ import {
   masters,
   services,
 } from '@/mock/data';
-import { ClientFilters } from '@/pages/[[...slug]]';
 import { Button } from '@/components/ui/button';
+import { ClientFilters } from '@/pages/[[...slug]]';
 
 export function FilterSheet({
-  setAllFilters,
   setOpenModal,
+  handleSetFilters,
+  handleCrearFilters,
 }: {
-  setAllFilters: React.Dispatch<React.SetStateAction<ClientFilters>>;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSetFilters: () => void;
+  handleCrearFilters: () => void;
 }) {
   return (
     <SheetContent
@@ -37,26 +39,64 @@ export function FilterSheet({
         <Heading size="h3">Фильтр</Heading>
       </SheetHeader>
       <div className="flex flex-col px-3 h-full overflow-y-auto gap-2">
-        <FilterSlider title="Приоритет" min={0} max={1000} name="priority" />
-        <FilterCheckbox title="Категории клиентов" name="categoryClient" data={clientCategories} />
-        <FilterRadio title="Пол" name="male" data={genders} />
+        <FilterSlider<Pick<ClientFilters, 'priority'>>
+          title="Приоритет"
+          min={0}
+          max={1000}
+          name="priority"
+        />
+        <FilterCheckbox<Pick<ClientFilters, 'categoryClient'>>
+          title="Категории клиентов"
+          name="categoryClient"
+          data={clientCategories}
+        />
+        <FilterRadio<Pick<ClientFilters, 'male'>> title="Пол" name="male" data={genders} />
 
-        <FilterSlider title="Возраст" min={0} max={150} name="age" />
-        <FilterSlider title="Количество визитов" min={0} max={1000000} name="visitsCount" />
-        <FilterCheckbox title="Мастера" name="masters" data={masters} />
-        <FilterCheckbox title="Услуги" name="services" data={services} />
-        <FilterRadio title="Формат" name="format" data={creationFormats} />
-        <FilterCheckbox
+        <FilterSlider<Pick<ClientFilters, 'age'>> title="Возраст" min={0} max={150} name="age" />
+        <FilterSlider<Pick<ClientFilters, 'visitsCount'>>
+          title="Количество визитов"
+          min={0}
+          max={1000000}
+          name="visitsCount"
+        />
+        <FilterCheckbox<Pick<ClientFilters, 'masters'>>
+          title="Мастера"
+          name="masters"
+          data={masters}
+        />
+        <FilterCheckbox<Pick<ClientFilters, 'services'>>
+          title="Услуги"
+          name="services"
+          data={services}
+        />
+        <FilterRadio<Pick<ClientFilters, 'format'>>
+          title="Формат"
+          name="format"
+          data={creationFormats}
+        />
+        <FilterCheckbox<Pick<ClientFilters, 'categoryRecords'>>
           title="Категории записей"
           name="categoryRecords"
           data={appointmentCategories}
         />
-        <FilterCheckbox title="Статус записи" name="status" data={appointmentStatuses} />
-        <FilterRadio title="Активность" name="activity" data={activities} />
+        <FilterCheckbox<Pick<ClientFilters, 'status'>>
+          title="Статус записи"
+          name="status"
+          data={appointmentStatuses}
+        />
+        <FilterRadio<Pick<ClientFilters, 'activity'>>
+          title="Активность"
+          name="activity"
+          data={activities}
+        />
 
         <div className="mt-auto sticky bottom-0 flex flex-col w-full bg-[rgba(255,255,255,1)] p-3 gap-2 rounded-tl-[12px] shadow rounded-tr-[12px]">
-          <Button variant="filled">Показать</Button>
-          <Button variant="text">Сбросить фильтры</Button>
+          <Button variant="filled" onClick={handleSetFilters}>
+            Показать
+          </Button>
+          <Button onClick={handleCrearFilters} variant="text">
+            Сбросить фильтры
+          </Button>
         </div>
       </div>
     </SheetContent>

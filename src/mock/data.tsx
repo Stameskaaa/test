@@ -61,7 +61,7 @@ export const activities = ['включена', 'отключена'];
 export const inputFilterMock = [
   {
     icon: <StarIcon />,
-    name: 'category',
+    name: 'categoryClient',
     placeholder: 'Категории клиентов',
     items: clientCategories,
   },

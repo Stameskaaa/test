@@ -1,6 +1,6 @@
 import React from 'react';
 import { AccordionHeader } from '@radix-ui/react-accordion';
-import { useFormContext, Controller, useWatch } from 'react-hook-form';
+import { useFormContext, Controller, useWatch, Path, FieldValues } from 'react-hook-form';
 import {
   Accordion,
   AccordionContent,
@@ -10,24 +10,25 @@ import {
 import { Text } from '@/components/Typography/Text';
 import { Checkbox } from '@/components/ui/checkbox';
 
-interface FilterCheckboxProps {
+interface FilterCheckboxProps<T> {
   title: string;
-  name: string;
+  name: Path<T>;
   data: string[];
 }
 
-export const FilterCheckbox = ({ name, data, title }: FilterCheckboxProps) => {
+export const FilterCheckbox = <T extends FieldValues>({
+  name,
+  data,
+  title,
+}: FilterCheckboxProps<T>) => {
   const { control, setValue } = useFormContext();
   const selectedItems: string[] = useWatch({ name, control }) || [];
 
   const toggleCheckbox = (data: string) => {
     if (selectedItems.includes(data)) {
-      setValue(
-        name,
-        selectedItems.filter((id) => id !== data),
-      );
+      setValue(name, selectedItems.filter((id) => id !== data) as any);
     } else {
-      setValue(name, [...selectedItems, data]);
+      setValue(name, [...selectedItems, data] as any);
     }
   };
 
