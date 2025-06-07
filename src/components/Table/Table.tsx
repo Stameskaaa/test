@@ -80,7 +80,7 @@ export function DataTable({
 
   return (
     <Form {...methods}>
-      <div className="rounded-md border bg-white border-gray-200 h-full flex-1 overflow-auto w-full flex-shrink-0">
+      <div className="rounded-md border bg-white border-gray-200 h-full flex-1 overflow-y-auto w-full flex-shrink-0">
         <div className="flex gap-2 items-center py-6 px-5">
           <Heading>Напоминание о визите</Heading>{' '}
           <Heading color="gray">{`${filteredRow.length}`}</Heading>
@@ -93,7 +93,7 @@ export function DataTable({
             />
           </div>
         </div>
-        <Table className="min-w-0  w-full ">
+        <Table className="min-w-0  w-ful">
           <TableHeader className="py-3 h-[56px]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

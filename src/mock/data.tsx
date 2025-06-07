@@ -105,7 +105,7 @@ export const columns: ColumnDef<RowData>[] = [
     header: '',
     accessorKey: '',
     cell: () => (
-      <div className="w-[32px] grid place-items-center pl-4">
+      <div className="w-[36px] grid place-items-center pl-4">
         <IconBurger />
       </div>
     ),
