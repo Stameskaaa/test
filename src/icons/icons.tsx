@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 export const StarIcon = () => {
@@ -611,12 +612,23 @@ export const IconBurger = () => {
   );
 };
 
-export const IconBurgerSmall = () => {
+export const IconBurgerSmall = ({ color = 'default' }: { color?: 'default' | 'cyan' }) => {
+  const strokeClass = clsx({
+    'text-[var(--color-cyan)]': color === 'cyan',
+    'text-[#8097B1]': color === 'default',
+  });
+
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 4H12" stroke="#8097B1" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M4 8L12 8" stroke="#8097B1" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M4 12L12 12" stroke="#8097B1" strokeWidth="1.5" strokeLinecap="round" />
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={strokeClass}>
+      <path d="M4 4H12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 8L12 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 12L12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 };

@@ -1,7 +1,6 @@
 import { Filters } from '@/components/Filters/Filters';
-import { DataTable, RowData } from '@/components/Table/Table';
-import { generateClientTableData } from '@/helpers/helpers';
-import { useEffect, useState } from 'react';
+import { DataTable } from '@/components/Table/Table';
+import { useState } from 'react';
 
 export interface SelectFilters {
   categoryClient: string[];

@@ -1,4 +1,4 @@
-import { RowData } from '@/components/Table/Table';
+import { RowData, SortedType } from '@/components/Table/types';
 import {
   activities,
   appointmentCategories,
@@ -94,4 +94,19 @@ export function filterClients(filters: ClientFilters & { category?: string[] }, 
 
 export function filterTableHeader(filterColumns: string[], onToggle?: (id: string) => void) {
   return getColumns(onToggle).filter(({ header }) => filterColumns.includes(String(header)));
+}
+
+export function sortClients(data: RowData[], sortedColumn: SortedType | null) {
+  if (!sortedColumn) return data;
+
+  return data.sort((a, b) => {
+    const firstValue = a[sortedColumn.name] || 0;
+    const secondValue = b[sortedColumn.name] || 0;
+
+    let result = 0;
+    if (firstValue < secondValue) result = -1;
+    else if (firstValue > secondValue) result = 1;
+
+    return sortedColumn.sort === 'asc' ? result : -result;
+  });
 }

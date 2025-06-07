@@ -1,4 +1,4 @@
-import { RowData } from '@/components/Table/Table';
+import { RowData } from '@/components/Table/types';
 import { Text } from '@/components/Typography/Text';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
