@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import React, { ReactNode } from 'react';
 
 interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
-  children: ReactNode; // Библиотека вынуждает
+  children: ReactNode;
   size?: 'xs' | 'sm' | 'base';
   weight?: 'regular' | 'medium';
   nowrap?: boolean;

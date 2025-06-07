@@ -13,7 +13,7 @@ export const FilterInput = <T extends FieldValues>({
   name,
   placeholder,
   icon,
-  className, // ← достаём
+  className,
 }: FilterInputProps<T>) => {
   const methods = useFormContext();
 
