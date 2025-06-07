@@ -44,9 +44,14 @@ export const FilterSelect = <T extends FieldValues>({
         function getDisplayValues() {
           if (selectedValues.length > 0) {
             if (selectedValues.length > 3) {
-              return selectedValues.slice(0, 2).join(', ') + '...';
+              return (
+                selectedValues
+                  .filter((v) => v)
+                  .slice(0, 2)
+                  .join(', ') + '...'
+              );
             } else {
-              return selectedValues.join(', ');
+              return selectedValues.filter((v) => v).join(', ');
             }
           } else {
             return placeholder;
@@ -65,18 +70,20 @@ export const FilterSelect = <T extends FieldValues>({
                 </SelectTrigger>
               </FormControl>
               <SelectContent className="w-full rounded-xl bg-[var(--color-white)]">
-                {items?.map((item) => (
-                  <div
-                    key={item}
-                    onClick={() => toggleValue(item)}
-                    className="relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm hover:bg-muted">
-                    <Checkbox
-                      checked={selectedValues.includes(item)}
-                      className="absolute left-2 top-1/2 -translate-y-1/2"
-                    />
-                    <label>{item}</label>
-                  </div>
-                ))}
+                {items
+                  ?.filter((item) => !!item)
+                  ?.map((item) => (
+                    <div
+                      key={item}
+                      onClick={() => toggleValue(item)}
+                      className="relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm hover:bg-muted">
+                      <Checkbox
+                        checked={selectedValues.includes(item)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2"
+                      />
+                      <label>{item}</label>
+                    </div>
+                  ))}
               </SelectContent>
             </Select>
           </FormItem>
