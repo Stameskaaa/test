@@ -1,9 +1,9 @@
 import React from 'react';
-import { RowData, RowDataKeys, SortedType } from './types';
-import { flexRender, Header, Table } from '@tanstack/react-table';
+import { flexRender, Table } from '@tanstack/react-table';
 import { IconBurgerSmall } from '@/icons/icons';
-import { Text } from '../Typography/Text';
+import { RowData, RowDataKeys, SortedType } from './types';
 import { sortClients } from '@/helpers/helpers';
+import { Text } from '../Typography/Text';
 import { TableHeader, TableHead as TableHeaderComponent, TableRow } from '../ui/table';
 
 interface TableHeadProps {
