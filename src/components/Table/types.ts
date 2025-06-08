@@ -1,3 +1,5 @@
+import { Row } from '@tanstack/react-table';
+
 export interface TableHeaderForm {
   tColumns: string[];
 }
@@ -25,3 +27,5 @@ export interface RowData {
 }
 
 export type RowDataKeys = keyof RowData;
+
+export type ActiveRow = { row: Row<RowData>; width: number | null };

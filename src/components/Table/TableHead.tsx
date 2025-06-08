@@ -43,7 +43,7 @@ export const TableHead: React.FC<TableHeadProps> = ({
     <TableHeader className="py-3 h-[56px]">
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
-          <div className="py-5 pl-4 pr-3 max-w-[48px] h-full" />
+          <th className="py-5 pl-4 pr-3 max-w-[48px] h-full" />
           {headerGroup.headers.map((header) => (
             <TableHeaderComponent
               onClick={() => sortTable(header.column.id as RowDataKeys)}

@@ -29,12 +29,12 @@ export const TableRow = ({ row }: { row: Row<RowData> }) => {
 
   return (
     <TableRowComponent ref={setCombinedRef} style={{ ...sortStyle }} className="bg-white">
-      <div
+      <td
         className="py-5 pl-4 pr-3 cursor-grab grid place-items-center"
         {...listeners}
         {...attributes}>
         <IconBurger />
-      </div>
+      </td>
       {row.getVisibleCells().map((cell) => (
         <TableCell key={cell.id} className="min-w-0 pl-0 pr-3 py-3 cursor-pointer">
           <Text
