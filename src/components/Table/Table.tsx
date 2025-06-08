@@ -1,28 +1,19 @@
-import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Text } from '../Typography/Text';
+import { SettingIcon } from '@/icons/icons';
+import { useEffect, useMemo, useState } from 'react';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { DndContext, closestCenter, DragEndEvent, useDroppable } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useForm } from 'react-hook-form';
+import { ClientFilters } from '@/pages/[[...slug]]';
+import { RowData, SortedType, TableHeaderForm } from './types';
+import { TableRow } from './TableRow';
+import { getColumns } from '@/mock/data';
+import { filterClients, filterTableHeader, generateClientTableData } from '@/helpers/helpers';
+import { Table, TableBody, TableCell, TableRow as TableRowComponent } from '@/components/ui/table';
 import { Heading } from '../Typography/Heading';
 import { FilterSelect } from '../Filters/FilterUI/FilterSelect';
 import { Form } from '../ui/form';
-import { useForm } from 'react-hook-form';
-import { IconBurgerSmall, SettingIcon } from '@/icons/icons';
-import { ClientFilters } from '@/pages/[[...slug]]';
-import { getColumns } from '@/mock/data';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  filterClients,
-  filterTableHeader,
-  generateClientTableData,
-  sortClients,
-} from '@/helpers/helpers';
-import { RowData, RowDataKeys, SortedType, TableHeaderForm } from './types';
+import { TableHead } from './TableHead';
 
 export const initialFilters: ClientFilters = {
   categoryClient: [],
@@ -40,6 +31,9 @@ export const initialFilters: ClientFilters = {
 };
 
 export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
+  const { setNodeRef } = useDroppable({
+    id: 'clientsTable',
+  });
   const tColumnsData = getColumns(toggleTableItem).map(({ header }) => String(header));
   const methods = useForm<TableHeaderForm>({ defaultValues: { tColumns: tColumnsData } });
   const tColumns = methods.watch('tColumns');
@@ -53,7 +47,7 @@ export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
   }, []);
 
   const filteredRow = useMemo(() => {
-    return sortClients(filterClients(allFilters, rowData), sortedColumn);
+    return filterClients(allFilters, rowData);
   }, [allFilters, rowData, sortedColumn]);
 
   const filteredColumns = useMemo(() => {
@@ -78,13 +72,18 @@ export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
     );
   }
 
-  function sortTable(name: RowDataKeys) {
-    if (sortedColumn && sortedColumn.name === name) {
-      setSortedColumn({ name, sort: sortedColumn.sort === 'desc' ? 'asc' : 'asc' });
-    } else {
-      setSortedColumn({ name, sort: 'desc' });
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = rowData.findIndex((item) => item.names === active.id);
+      const newIndex = rowData.findIndex((item) => item.names === over?.id);
+
+      if (oldIndex !== -1 && newIndex !== -1) {
+        setRowData(arrayMove(rowData, oldIndex, newIndex));
+      }
     }
-  }
+  };
 
   return (
     <Form {...methods}>
@@ -101,60 +100,31 @@ export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
             />
           </div>
         </div>
-        <Table className="min-w-0  w-ful">
-          <TableHeader className="py-3 h-[56px]">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    onClick={() => sortTable(header.column.id as RowDataKeys)}
-                    key={header.id}
-                    className="min-w-0  truncate pl-0 pr-3 cursor-pointer">
-                    <div className="flex gap-0.5 items-center">
-                      {header.column.id !== 'leftIcon' && (
-                        <IconBurgerSmall
-                          color={sortedColumn?.name === header.column.id ? 'cyan' : 'default'}
-                        />
-                      )}
-                      <Text
-                        nowrap={false}
-                        size="sm"
-                        color={sortedColumn?.name === header.column.id ? 'cyan' : 'gray'}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())}
-                      </Text>
-                    </div>
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="min-w-0  truncate  pl-0 pr-3 py-3">
-                      <Text
-                        color={row.original.disabled ? 'gray' : undefined}
-                        alignment="left"
-                        size="xs"
-                        className="truncate">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </Text>
+        <Table className="min-w-0  w-ful ">
+          <TableHead
+            table={table}
+            sortedColumn={sortedColumn}
+            setSortedColumn={setSortedColumn}
+            rowData={rowData}
+            setRowData={setRowData}
+          />
+          <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={rowData.map((row) => row.names)}
+              strategy={verticalListSortingStrategy}>
+              <TableBody ref={setNodeRef}>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => <TableRow row={row} key={row.id} />)
+                ) : (
+                  <TableRowComponent>
+                    <TableCell colSpan={tColumnsData.length} className="h-24 text-center">
+                      -
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={tColumnsData.length} className="h-24 text-center">
-                  -
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+                  </TableRowComponent>
+                )}
+              </TableBody>
+            </SortableContext>
+          </DndContext>
         </Table>
       </div>
     </Form>

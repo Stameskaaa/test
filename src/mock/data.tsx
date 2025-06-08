@@ -101,19 +101,19 @@ export const inputFilterMock = [
 
 export const getColumns = (onToggle?: (id: string) => void): ColumnDef<RowData>[] => {
   return [
-    {
-      id: 'leftIcon',
-      header: '',
-      accessorKey: '',
-      cell: () => (
-        <div className="w-[36px] grid place-items-center pl-4">
-          <IconBurger />
-        </div>
-      ),
-      meta: {
-        filterKey: '',
-      },
-    },
+    // {
+    //   id: 'leftIcon',
+    //   header: '',
+    //   accessorKey: '',
+    //   cell: () => (
+    //     <div className="w-[36px] grid place-items-center pl-4">
+    //       <IconBurger />
+    //     </div>
+    //   ),
+    //   meta: {
+    //     filterKey: '',
+    //   },
+    // },
     {
       accessorKey: 'names',
       header: 'Наименование клиента',
