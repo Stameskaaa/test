@@ -1,3 +1,4 @@
+import { ClientFilters } from '@/app/PageComponent';
 import { RowData, SortedType } from '@/components/Table/types';
 import {
   activities,
@@ -10,7 +11,6 @@ import {
   masters,
   services,
 } from '@/mock/data';
-import { ClientFilters } from '@/pages/[[...slug]]';
 
 export const randomInt = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;

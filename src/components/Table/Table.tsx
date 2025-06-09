@@ -14,9 +14,8 @@ import { FilterSelect } from '../Filters/FilterUI/FilterSelect';
 import { Form } from '../ui/form';
 import { TableHead } from './TableHead';
 import { TableBody } from './TableBody';
-
 import { Text } from '../Typography/Text';
-import { ClientFilters } from '@/app/PageComponent';
+import { ClientFilters } from '../../app/PageComponent';
 
 export const initialFilters: ClientFilters = {
   categoryClient: [],

@@ -15,7 +15,7 @@ import {
   services,
 } from '@/mock/data';
 import { Button } from '@/components/ui/button';
-import { ClientFilters } from '@/pages/[[...slug]]';
+import { ClientFilters } from '../../../app/PageComponent';
 
 export function FilterSheet({
   setOpenModal,

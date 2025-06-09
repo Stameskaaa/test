@@ -9,7 +9,7 @@ import { FilterInput } from './FilterUI/FilterInput';
 import { Sheet, SheetTrigger } from '../ui/sheet';
 import { FilterSheet } from './FilterUI/FilterSheet';
 import { inputFilterMock } from '@/mock/data';
-import { ClientFilters } from '@/app/PageComponent';
+import { ClientFilters } from '../../app/PageComponent';
 
 export const defaultValuesForm: ClientFilters = {
   name: '',
