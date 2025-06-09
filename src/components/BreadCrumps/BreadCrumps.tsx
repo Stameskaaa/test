@@ -1,10 +1,13 @@
+'use client';
 import { useParams } from 'next/navigation';
 import { Heading } from '../Typography/Heading';
 
 export const BreadCrumps = () => {
   const params = useParams();
 
-  const slugArray = Array.isArray(params?.slug) ? params.slug : [];
+  const slugArray = Array.isArray(params?.slug)
+    ? params.slug.map((part) => decodeURIComponent(part))
+    : [];
 
   return (
     <div className="flex items-center gap-1">

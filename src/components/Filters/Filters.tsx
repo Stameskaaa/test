@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Form } from '../ui/form';
@@ -8,7 +9,7 @@ import { FilterInput } from './FilterUI/FilterInput';
 import { Sheet, SheetTrigger } from '../ui/sheet';
 import { FilterSheet } from './FilterUI/FilterSheet';
 import { inputFilterMock } from '@/mock/data';
-import { ClientFilters } from '@/pages/[[...slug]]';
+import { ClientFilters } from '@/app/PageComponent';
 
 export const defaultValuesForm: ClientFilters = {
   name: '',

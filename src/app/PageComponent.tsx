@@ -1,3 +1,4 @@
+'use client';
 import { Filters } from '@/components/Filters/Filters';
 import { DataTable } from '@/components/Table/Table';
 import { useState } from 'react';
@@ -41,7 +42,7 @@ export const initialFilters: ClientFilters = {
   status: [],
 };
 
-export default function Home() {
+export default function PageComponent() {
   const [allFilters, setAllFilters] = useState<ClientFilters>(initialFilters);
 
   return (

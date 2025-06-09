@@ -1,10 +1,10 @@
+'use client';
 import { IconBurger, SettingIcon } from '@/icons/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { closestCenter, DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { flexRender, getCoreRowModel, Row, useReactTable } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
-import { ClientFilters } from '@/pages/[[...slug]]';
 import { ActiveRow, RowData, SortedType, TableHeaderForm } from './types';
 import { getColumns } from '@/mock/data';
 import { filterClients, filterTableHeader, generateClientTableData } from '@/helpers/helpers';
@@ -16,6 +16,7 @@ import { TableHead } from './TableHead';
 import { TableBody } from './TableBody';
 
 import { Text } from '../Typography/Text';
+import { ClientFilters } from '@/app/PageComponent';
 
 export const initialFilters: ClientFilters = {
   categoryClient: [],

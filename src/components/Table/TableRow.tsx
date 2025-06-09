@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { flexRender, Row } from '@tanstack/react-table';
