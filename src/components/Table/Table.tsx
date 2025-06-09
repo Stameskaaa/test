@@ -38,13 +38,16 @@ export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
   const tColumns = methods.watch('tColumns');
 
   const [rowData, setRowData] = useState<RowData[]>([]);
+  const [loading, setLoading] = useState(true);
   const [sortedColumn, setSortedColumn] = useState<null | SortedType>(null);
 
   const [activeRow, setActiveRow] = useState<ActiveRow | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     const generated = generateClientTableData(20);
     setRowData(generated);
+    setLoading(false);
   }, []);
 
   const filteredRow = useMemo(() => {
@@ -61,7 +64,7 @@ export function DataTable({ allFilters }: { allFilters: ClientFilters }) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (rowData.length === 0) {
+  if (loading || rowData.length === 0) {
     return <div className="m-auto">Loading...</div>;
   }
 
