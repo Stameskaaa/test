@@ -1,20 +1,13 @@
 'use client';
-import { useParams } from 'next/navigation';
 import { Heading } from '../Typography/Heading';
 
-export const BreadCrumps = () => {
-  const params = useParams();
-
-  const slugArray = Array.isArray(params?.slug)
-    ? params.slug.map((part) => decodeURIComponent(part))
-    : [];
-
+export const BreadCrumps = ({ currentPath }: { currentPath: string[] }) => {
   return (
     <div className="flex items-center gap-1">
-      {slugArray.map((item, index) => (
+      {currentPath.map((item, index) => (
         <div key={index} className="flex items-center gap-1">
           <Heading className="py-1.5 px-3 first-letter:uppercase">{item}</Heading>
-          {index < slugArray.length - 1 && (
+          {index < currentPath.length - 1 && (
             <div className="w-4 h-4 grid place-content-center text-[rgba(69,69,88,1)] leading-none">
               <svg
                 width="4"

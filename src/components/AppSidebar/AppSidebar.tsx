@@ -61,7 +61,11 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({
+  setCurrentpPath,
+}: {
+  setCurrentpPath: React.Dispatch<React.SetStateAction<string[]>>;
+}) {
   return (
     <SidebarProvider className="h-full w-full max-w-[280px]">
       <Sidebar
@@ -93,15 +97,17 @@ export function AppSidebar() {
                 key={index}>
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <Link href={`/${title.toLowerCase()}`} passHref>
-                      <SidebarMenuButton className="h-auto p-3 flex gap-1 rounded-[8px] cursor-pointer">
-                        {icon}
-                        <Text alignment="left" size="sm">
-                          {title}
-                        </Text>
-                        {child && <ArrowDown open={open} />}
-                      </SidebarMenuButton>
-                    </Link>
+                    {/* <Link href={`/${title.toLowerCase()}`} passHref> */}
+                    <SidebarMenuButton
+                      className="h-auto p-3 flex gap-1 rounded-[8px] cursor-pointer"
+                      onClick={() => setCurrentpPath([title])}>
+                      {icon}
+                      <Text alignment="left" size="sm">
+                        {title}
+                      </Text>
+                      {child && <ArrowDown open={open} />}
+                    </SidebarMenuButton>
+                    {/* </Link> */}
                   </CollapsibleTrigger>
 
                   {child && (
@@ -111,13 +117,15 @@ export function AppSidebar() {
                       {child.map(({ text }, subIndex) => (
                         <CollapsibleContent key={subIndex}>
                           <SidebarMenuSubItem>
-                            <Link href={`/${title.toLowerCase()}/${text.toLowerCase()}`} passHref>
-                              <SidebarMenuButton className="h-auto cursor-pointer py-3.5 px-3">
-                                <Text alignment="left" size="sm">
-                                  {text}
-                                </Text>
-                              </SidebarMenuButton>
-                            </Link>
+                            {/* <Link href={`/${title.toLowerCase()}/${text.toLowerCase()}`} passHref> */}
+                            <SidebarMenuButton
+                              className="h-auto cursor-pointer py-3.5 px-3"
+                              onClick={() => setCurrentpPath([title, text])}>
+                              <Text alignment="left" size="sm">
+                                {text}
+                              </Text>
+                            </SidebarMenuButton>
+                            {/* </Link> */}
                           </SidebarMenuSubItem>
                         </CollapsibleContent>
                       ))}

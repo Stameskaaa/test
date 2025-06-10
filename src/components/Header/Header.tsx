@@ -1,16 +1,16 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Button } from '../ui/button';
 import { LogoutIcon, NotificationIcon, WalletIcon } from '@/icons/icons';
 import { Text } from '../Typography/Text';
 import { Badge } from '../Badge/Badge';
 import { BreadCrumps } from '../BreadCrumps/BreadCrumps';
 
-export const Header = () => {
+export const Header = ({ currentPath }: { currentPath: string[] }) => {
   return (
     <header
       style={{ boxShadow: '0px 3px 9px 0px rgba(0, 0, 0, 0.1)' }}
       className="w-full bg-[var(--color-white)] shadow-md flex items-center justify-between h-20 pl-[40px] pr-[28px] py-5 gap-12">
-      <BreadCrumps />
+      <BreadCrumps currentPath={currentPath} />
 
       <div className="flex gap-1 pr-[25px]  items-center ml-auto">
         <WalletIcon />
